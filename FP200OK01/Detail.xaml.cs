@@ -48,30 +48,37 @@ namespace FP200OK01
         }
         private void FavEvent(object o, EventArgs e)
         {
-            // if this is in favorite list
-            if (isFav)
+            if (user.UserId == 0)
             {
-                // delete from favorite list
-                using (var ctx = new MovieContext())
-                {
-                    ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == movie.MovieId && x.UserId == user.UserId).FirstOrDefault());
-                    ctx.SaveChanges();
-                }
-                isFav = isFavorite();
+                MessageBox.Show("Please login first");
             }
-            else
+            else 
             {
-                // if this is not in favorite list
-                // save to favorite list
-                using (var ctx = new MovieContext())
+                // if this is in favorite list
+                if (isFav)
                 {
-                    Favorite temp = new Favorite();
-                    temp.MovieId = movie.MovieId;
-                    temp.UserId = user.UserId;
-                    ctx.Favorite.Add(temp);
-                    ctx.SaveChanges();
+                    // delete from favorite list
+                    using (var ctx = new MovieContext())
+                    {
+                        ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == movie.MovieId && x.UserId == user.UserId).FirstOrDefault());
+                        ctx.SaveChanges();
+                    }
+                    isFav = isFavorite();
                 }
-                isFav = isFavorite();
+                else
+                {
+                    // if this is not in favorite list
+                    // save to favorite list
+                    using (var ctx = new MovieContext())
+                    {
+                        Favorite temp = new Favorite();
+                        temp.MovieId = movie.MovieId;
+                        temp.UserId = user.UserId;
+                        ctx.Favorite.Add(temp);
+                        ctx.SaveChanges();
+                    }
+                    isFav = isFavorite();
+                }
             }
         }
         private bool isFavorite()
