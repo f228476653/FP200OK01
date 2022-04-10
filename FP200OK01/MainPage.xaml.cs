@@ -22,6 +22,7 @@ namespace FP200OK01
     /// </summary>
     public partial class MainPage : Page
     {
+
         Login loginPage;
         System.Windows.Controls.Button subLogInButton;
         CreateAccount createPage;
@@ -35,15 +36,16 @@ namespace FP200OK01
         List<Movie> movies;
         User u = new User();
         FileService fs = new FileService();
-
+        int prevselectedDir = -1;
+        int prevselectedGen = -1;
+        int selectedDirInd = -1;
+        int selectedGenreInd = -1;
 
 
         public MainPage()
         {
             InitializeComponent();
             commonUsage();
-
-
         }
 
         public MainPage(User user)
@@ -131,9 +133,6 @@ namespace FP200OK01
                 CreateButton.Visibility = Visibility.Hidden;
             }
         }
-
-
-
         private void CreateButtonClick(object sender, RoutedEventArgs e)
         {
 
@@ -167,7 +166,8 @@ namespace FP200OK01
                 EditMovieButton.Click += EditMovieButtonClick;
                 DeleteMovieButton.Click += DeleteMovieButtonClick;
                 SearchTextBox.TextChanged += SearchTextInput;
-
+                DirectorListBox.SelectionChanged += filterByDirectorGenreMulti;
+                GenreListBox.SelectionChanged += filterByDirectorGenreMulti;
                 LoginButton.Click += LoginButtonClick;
                 LogoutButton.Click += LogOutButtonClick;
                 CreateButton.Click += CreateButtonClick;
@@ -175,8 +175,6 @@ namespace FP200OK01
 
             }
         }
-
-
 
         private void WindowClosed(Object o, EventArgs e)
         {
@@ -217,12 +215,113 @@ namespace FP200OK01
                     tempMovieList = tempMovieList.Where(x => x.MovieTitle.Contains(keyWord) || x.MovieId.ToString().Contains(keyWord) ||
                         x.ReleaseDate.Contains(keyWord) || x.MovieGenres.Contains(keyWord) || x.MovieDirector.Contains(keyWord)).ToList();
                     MovieDataGrid.ItemsSource = tempMovieList;
-
                 }
 
             }
         }
 
+        /*private void filterByDirectorGenre(Object o, EventArgs e)
+        {
+            selectedDirInd = DirectorListBox.SelectedIndex;
+            selectedGenreInd = GenreListBox.SelectedIndex;
+            
+            using (var ctx = new MovieContext())
+            {
+                movies = ctx.Movie.ToList();
+                List<MovieTempForList> tempMovieList = new List<MovieTempForList>();
+                foreach (Movie m in movies)
+                {
+                    MovieTempForList currentMovie = new MovieTempForList();
+                    currentMovie.MovieId = m.MovieId;
+                    currentMovie.MovieTitle = m.MovieTitle;
+                    currentMovie.ReleaseDate = m.ReleaseDate.ToShortDateString();
+                    currentMovie.MovieDirector = ctx.Director.Where(x => x.DirectorId == m.DirectorId).FirstOrDefault().ToString();
+                    currentMovie.MovieGenres = ctx.Genre.Where(x => x.GenreId == m.GenreId).FirstOrDefault().ToString();
+                    tempMovieList.Add(currentMovie);
+                }
+                genres = ctx.Genre.ToList();
+                directors = ctx.Director.ToList();
+                if (selectedDirInd != -1 && selectedGenreInd != -1)
+                {
+                    Director selectedDirector = directors[selectedDirInd];
+                    var director = ctx.Director.Where(x => x.DirectorId == selectedDirector.DirectorId).First();
+                    string directorName = director.DirectorName;
+                    Genre selectedGenre = genres[selectedGenreInd];
+                    var genre = ctx.Genre.Where(x => x.GenreId == selectedGenre.GenreId).First();
+                    string genreName = genre.GenreName;
+                    tempMovieList = tempMovieList.Where(x => x.MovieGenres.Contains(genreName)&& x.MovieDirector.Contains(directorName)).ToList();
+                }
+                else if (selectedDirInd != -1 && selectedGenreInd== -1)
+                {
+                    Director selectedDirector = directors[selectedDirInd];
+                    var director = ctx.Director.Where(x => x.DirectorId == selectedDirector.DirectorId).First();
+                    string directorName = director.DirectorName;
+                    tempMovieList = tempMovieList.Where(x => x.MovieDirector.Contains(directorName)).ToList();
+                }
+                else if(selectedDirInd == -1 && selectedGenreInd != -1)
+                {
+                    Genre selectedGenre = genres[selectedGenreInd];
+                    var genre = ctx.Genre.Where(x => x.GenreId == selectedGenre.GenreId).First();
+                    string genreName = genre.GenreName;
+                    tempMovieList = tempMovieList.Where(x => x.MovieGenres.Contains(genreName)).ToList();
+                }
+                MovieDataGrid.ItemsSource = tempMovieList;
+            }
+            
+        }*/
+
+        private void filterByDirectorGenreMulti(Object o, EventArgs e)
+        {
+            // Get the string from listview to build list 
+            List<string> directorsName = new List<string>();
+            foreach (ListViewItem li in DirectorListBox.SelectedItems)
+            {
+                directorsName.Add(li.Content.ToString());
+            }
+            List<string> genresName = new List<string>();
+            foreach (ListViewItem li in GenreListBox.SelectedItems)
+            {
+                genresName.Add(li.Content.ToString());
+            }
+
+            using (var ctx = new MovieContext())
+            {
+                /*var directors = DirectorListBox.SelectedItems.Cast<ListViewItem>().Select(x => x.Content as string).ToList();
+                var genres   = GenreListBox.SelectedItems.Cast<ListViewItem>().Select(x => x.Content as string).ToList();*/
+
+
+                movies = ctx.Movie.ToList();
+                List<MovieTempForList> tempMovieList = new List<MovieTempForList>();
+                foreach (Movie m in movies)
+                {
+                    MovieTempForList currentMovie = new MovieTempForList();
+                    currentMovie.MovieId = m.MovieId;
+                    currentMovie.MovieTitle = m.MovieTitle;
+                    currentMovie.ReleaseDate = m.ReleaseDate.ToShortDateString();
+                    currentMovie.MovieDirector = ctx.Director.Where(x => x.DirectorId == m.DirectorId).FirstOrDefault().ToString();
+                    currentMovie.MovieGenres = ctx.Genre.Where(x => x.GenreId == m.GenreId).FirstOrDefault().ToString();
+                    tempMovieList.Add(currentMovie);
+                }
+                // Three possible condition
+                if (directorsName.Count > 0 && genresName.Count > 0)
+                {
+                    tempMovieList = tempMovieList.Where(x => directorsName.Contains(x.MovieDirector) || genresName.Contains(x.MovieGenres)).ToList();
+                }
+                else if (genresName.Count > 0)
+                {
+                    tempMovieList = tempMovieList.Where(x => genresName.Contains(x.MovieGenres)).ToList();
+                }
+                else if (directorsName.Count > 0)
+                {
+                    tempMovieList = tempMovieList.Where(x => directorsName.Contains(x.MovieDirector)).ToList();
+                }
+
+
+                MovieDataGrid.ItemsSource = tempMovieList;
+            }
+
+
+        }
 
 
 
@@ -240,39 +339,9 @@ namespace FP200OK01
         }
 
 
-
-
-
-        /* public void uploadGenres()
-         {
-             using (var ctx = new MovieContext())
-             {
-                 foreach (Genre g in genres)
-                 {
-                     ctx.Genre.Add(g);
-                     ctx.SaveChanges();
-                 }
-
-             }
-             InitializeGenresListBox();
-         }
-
-         public void uploadDirectors()
-         {
-             using (var ctx = new MovieContext())
-             {
-                 foreach (Director d in directors)
-                 {
-                     ctx.Director.Add(d);
-                     ctx.SaveChanges();
-                 }
-
-             }
-             InitializeDirectorsListBox();
-
-         }*/
         public void InitializeDirectorsListBox()
         {
+            DirectorListBox.SelectionMode = SelectionMode.Multiple;
             DirectorListBox.Items.Clear();
             using (var ctx = new MovieContext())
             {
@@ -295,6 +364,7 @@ namespace FP200OK01
 
         public void InitializeGenresListBox()
         {
+            GenreListBox.SelectionMode = SelectionMode.Multiple;
             GenreListBox.Items.Clear();
             using (var ctx = new MovieContext())
             {
@@ -322,7 +392,6 @@ namespace FP200OK01
              using (var ctx = new MovieContext())
              {
                  var user = ctx.User.Where(x => x.UserName == loginPage.UserNameTextBox.Text).FirstOrDefault ;
-
                  if (loginPage.PasswordTextBox.Text == user.getPassword().Trim())
                  {
                      myUser = user;*//*
@@ -372,19 +441,14 @@ namespace FP200OK01
              DataGridTextColumn movieTitleColumn = new DataGridTextColumn();
              movieTitleColumn.Header = "Movie Title";
              movieTitleColumn.Binding = new Binding("MovieTitle");
-
              DataGridTextColumn movieReleaseDateColumn = new DataGridTextColumn();
              movieReleaseDateColumn.Header = "Release Date";
              movieReleaseDateColumn.Binding = new Binding("ReleaseDate");
              movieReleaseDateColumn.Binding.StringFormat = "dd/MM/yyyy";
-
-
              DataGridTextColumn genreColumn = new DataGridTextColumn();
              genreColumn.Header = "Genre";
-
              DataGridTextColumn directorColumn = new DataGridTextColumn();
              directorColumn.Header = "Director";
-
              MovieDataGrid.Columns.Add(movieTitleColumn);
              MovieDataGrid.Columns.Add(movieReleaseDateColumn);
              MovieDataGrid.Columns.Add(genreColumn);
@@ -435,10 +499,6 @@ namespace FP200OK01
 
                     Movie deleteMovie = movies[MovieDataGrid.SelectedIndex];
                     ctx.Movie.Remove(ctx.Movie.Where(x => x.MovieId == deleteMovie.MovieId).First());
-                    if (ctx.Favorite.Where(x => x.MovieId == deleteMovie.MovieId).FirstOrDefault() != null) 
-                    {
-                        ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == deleteMovie.MovieId).FirstOrDefault());
-                    }
                     ctx.SaveChanges();
                 }
 
@@ -522,9 +582,7 @@ namespace FP200OK01
                         ctx.Review.Add(i);
                     }
                 }
-
                 ctx.SaveChanges();
-
                 count = ctx.Favorite.Count();
                 if (count <= 0)
                 {
@@ -535,7 +593,6 @@ namespace FP200OK01
                         ctx.Favorite.Add(i);
                     }
                 }
-
                 ctx.SaveChanges();*/
             }
         }
@@ -550,6 +607,7 @@ namespace FP200OK01
 
 
         }
+
 
     }
 }
