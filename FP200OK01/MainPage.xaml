@@ -25,6 +25,6 @@
         <Button Name="CreateButton" HorizontalAlignment="Left" Content="Create Account" Margin="564,32,0,0" VerticalAlignment="Top" Width="87" />
         <Button Name="LoginButton" Content="LogIn" HorizontalAlignment="Left" Margin="677,32,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Name="LogoutButton" Content="LogOut" HorizontalAlignment="Left" Margin="564,62,0,0" VerticalAlignment="Top" Width="75"  Visibility="Hidden"  />
-        <TextBox x:Name="StatisticTextBox" HorizontalAlignment="Left" Height="112" Margin="549,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191"/>
+        <TextBox x:Name="StatisticTextBox" HorizontalAlignment="Left" Height="112" Margin="549,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="191" IsReadOnly="True"/>
     </Grid>
 </Page>

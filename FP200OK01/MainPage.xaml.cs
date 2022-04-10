@@ -503,6 +503,7 @@ namespace FP200OK01
             }
         }
 
+        // unSelectListBox to solve the conflict between functions
         private void unSelectListBox()
         {
             DirectorListBox.SelectionChanged -= filterByDirectorGenreMulti;
@@ -519,11 +520,13 @@ namespace FP200OK01
             GenreListBox.SelectionChanged += filterByDirectorGenreMulti;
         }
 
+        // Delegate for LoadStatistics
         private void LoadStatistics(Object o, EventArgs e)
         {
             LoadStatistics();
         }
 
+        // Populate the data to Statistics Text box
         private void LoadStatistics()
         {
             StatisticTextBox.Text = "";
@@ -539,7 +542,7 @@ namespace FP200OK01
             StatisticTextBox.Text += "\n\n\nDisplaying: " + MovieDataGrid.Items.Count + " movie(s)";
             
         }
-
+        // Temp class for formating
         private class MovieTempForList
         {
             public int MovieId { get; set; }
