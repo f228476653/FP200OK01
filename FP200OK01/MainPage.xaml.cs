@@ -78,6 +78,7 @@ namespace FP200OK01
             createPage = new CreateAccount();
             // auto populate data if the user skip the file upload
             ReadDataToDatabase();
+            PopulateMovie();
             // init select box
             InitializeDirectorsListBox();
             InitializeGenresListBox();
