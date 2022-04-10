@@ -1,0 +1,22 @@
+﻿<Page x:Class="FP200OK01.PrePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FP200OK01"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PrePage">
+
+    <Grid>
+        <TextBlock  HorizontalAlignment="Left" Margin="65,65,0,0" TextWrapping="Wrap" Text="Please upload data:" VerticalAlignment="Top" Height="35" Width="157"/>
+        <Button Name ="AddDirectorBtn" Content="Populate Directors" HorizontalAlignment="Left" Margin="65,132,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+        <TextBlock x:Name="status1"  HorizontalAlignment="Left" Margin="247,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="157"/>
+        <TextBlock x:Name="status2"  HorizontalAlignment="Left" Margin="247,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="157"/>
+        <TextBlock x:Name="status3"  HorizontalAlignment="Left" Margin="247,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="157"/>
+        <Button Name="AddGenreBtn" IsEnabled="false" Content="Populate Genres" HorizontalAlignment="Left" Margin="65,181,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+        <Button Name="AddMovieBtn" IsEnabled="false"  Content="Populate Moive" HorizontalAlignment="Left" Margin="65,229,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+        <Button Name="Skip" Content="Skip" HorizontalAlignment="Left" Margin="623,339,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+        <Button Name="Next" Content="Next" HorizontalAlignment="Left" Margin="473,339,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+    </Grid>
+</Page>
