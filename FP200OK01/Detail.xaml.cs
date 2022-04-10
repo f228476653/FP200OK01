@@ -145,20 +145,26 @@ namespace FP200OK01
         // display IMDBdata to the page
         public void displayIMDB(IMDBData iMDBData)
         {
-
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(@iMDBData.posterPath, UriKind.Absolute);
-            bitmap.EndInit();
-            MoiveImg.Source = bitmap;
-            MovieName.Text = movie.MovieTitle;
-            //get movie description by MovieId
-            using (var ctx = new MovieContext())
+            try
             {
-                var description = ctx.Movie.Where(x => x.MovieId == movie.MovieId).FirstOrDefault();
-                DescriptionTxt.Text = description.MovieDescription;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(@iMDBData.posterPath, UriKind.Absolute);
+                bitmap.EndInit();
+                MoiveImg.Source = bitmap;
+                MovieName.Text = movie.MovieTitle;
+                //get movie description by MovieId
+                using (var ctx = new MovieContext())
+                {
+                    var description = ctx.Movie.Where(x => x.MovieId == movie.MovieId).FirstOrDefault();
+                    DescriptionTxt.Text = description.MovieDescription;
+                }
+                this.DataContext = iMDBData.imdbPath;
+            } catch (Exception ex)
+            {
+                MessageBox.Show("There is some problem from IMDb path or poster path\nPlease check");
             }
-            this.DataContext = iMDBData.imdbPath;
+            
         }
         // display Review to the page
         public void displayReview(List<Review> reviewList)
@@ -191,5 +197,7 @@ namespace FP200OK01
                 }
             }
         }
+
+
     }
 }
