@@ -69,6 +69,7 @@ namespace FP200OK01
                 {
                     HintTextBlock.Text = "User name is wrong!";
                     HintTextBlock.Visibility = Visibility.Visible;
+                    ErrorLog.ErrorLogging(ex);
                 }
 
             }

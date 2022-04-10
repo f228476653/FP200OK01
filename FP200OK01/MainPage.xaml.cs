@@ -325,6 +325,7 @@ namespace FP200OK01
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message);
+                        ErrorLog.ErrorLogging(e);
                     }
                 }
             }
@@ -348,6 +349,7 @@ namespace FP200OK01
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message);
+                        ErrorLog.ErrorLogging(e);
                     }
                 }
 

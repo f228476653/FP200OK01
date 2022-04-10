@@ -37,6 +37,7 @@ namespace FP200OK01.Utilities
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
+                        ErrorLog.ErrorLogging(ex);
                     }
                 }
             }
