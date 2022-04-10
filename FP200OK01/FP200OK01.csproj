@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="Utilities\DirectorParser.cs" />
     <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\ErrorLog.cs" />
     <Compile Include="Utilities\FavoriteCSVParser.cs" />
     <Compile Include="Utilities\FileService.cs" />
     <Compile Include="Utilities\GenreParser.cs" />

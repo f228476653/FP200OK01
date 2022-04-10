@@ -24,6 +24,7 @@ namespace FP200OK01.Utilities
             catch (Exception e)
             {
                 MessageBox.Show("Reading file occurs error: " + e.Message);
+                ErrorLog.ErrorLogging(e);
             }
 
             return fileContent;

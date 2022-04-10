@@ -58,6 +58,7 @@ namespace FP200OK01
             catch (Exception ex)
             {
                 MessageBox.Show("Something wrong when get the data from database! " + ex.Message);
+                ErrorLog.ErrorLogging(ex);
             }
 
         }
@@ -104,6 +105,7 @@ namespace FP200OK01
             catch (Exception ex)
             {
                 MessageBox.Show("No such element! " + ex.Message);
+                ErrorLog.ErrorLogging(ex);
             }
 
         }
@@ -146,6 +148,7 @@ namespace FP200OK01
             {
                 MessageBox.Show("There are something wrong when data update to database! ");
                 EditionHintTextBox.Text = "Some Input are wrong!";
+                ErrorLog.ErrorLogging(ex);
             }
         }
 
