@@ -435,7 +435,10 @@ namespace FP200OK01
 
                     Movie deleteMovie = movies[MovieDataGrid.SelectedIndex];
                     ctx.Movie.Remove(ctx.Movie.Where(x => x.MovieId == deleteMovie.MovieId).First());
-                    ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == deleteMovie.MovieId).First());
+                    if (ctx.Favorite.Where(x => x.MovieId == deleteMovie.MovieId).FirstOrDefault() != null) 
+                    {
+                        ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == deleteMovie.MovieId).FirstOrDefault());
+                    }
                     ctx.SaveChanges();
                 }
 
