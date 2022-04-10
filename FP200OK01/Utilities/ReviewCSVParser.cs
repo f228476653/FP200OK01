@@ -16,6 +16,7 @@ namespace FP200OK01.Utilities
             string[] lines = fileContents.Split('\n');
             try
             {
+                // avoid title, and create Review by using csv data
                 reviews = lines.Select(line => line.Split(','))
                     .Where(values => values[0] != "")
                     .Where(values => values[0] != "MovieId")

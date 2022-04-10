@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace FP200OK01.Entities
 {
+    // Review Entity
+    // To show reviews of the movies
     public class Review
     {
         [Key]

@@ -25,19 +25,21 @@ namespace FP200OK01
         public PrePage()
         {
             InitializeComponent();
-
+            // bind event
             AddGenreBtn.Click += selectGenreFile;
             AddDirectorBtn.Click += selectDirectorFile;
             Next.Click += navigateBackButton_Click;
             Skip.Click += navigateBackButton_Click;
             AddMovieBtn.Click += selectMovieFile;
         }
+        // go back to page
         void navigateBackButton_Click(object sender, RoutedEventArgs e)
         {
 
             this.NavigationService.Navigate(new MainPage());
 
         }
+        // to get the csv path, and parse Genre data to DB
         private void selectGenreFile(object o, EventArgs e)
         {
             if (o.Equals(AddGenreBtn))
@@ -75,6 +77,7 @@ namespace FP200OK01
 
             }
         }
+        // to get the csv path, and parse Movie data to DB
         private void selectMovieFile(object o, EventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDialogue = new Microsoft.Win32.OpenFileDialog();
@@ -108,6 +111,7 @@ namespace FP200OK01
             }
 
         }
+        // to get the csv path, and parse Director data to DB
         private void selectDirectorFile(object o, EventArgs e)
         {
             if (o.Equals(AddDirectorBtn))

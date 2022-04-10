@@ -11,7 +11,7 @@ namespace FP200OK01.Utilities
     class FileService
     {
         static StreamReader sr;
-
+        // read content of csv file
         public string ReadFile(string fileName)
         {
             string fileContent = "";

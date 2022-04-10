@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace FP200OK01.Entities
 {
+    // Genre Entity
+    // To show the Genre of the movie
     class Genre
     {
         [Key]

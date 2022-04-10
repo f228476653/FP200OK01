@@ -52,6 +52,8 @@ namespace FP200OK01
         {
             InitializeComponent();
             u = user;
+            // if user has login, display greeting word and show logout btn
+            // if not, show login
             if (user == null || user.UserId == 0)
             {
                 LogoutButton.Visibility = Visibility.Hidden;
@@ -74,20 +76,23 @@ namespace FP200OK01
             loginPage = new Login();
             subLogInButton = loginPage.SubLoginButton;
             createPage = new CreateAccount();
+            // auto populate data if the user skip the file upload
             ReadDataToDatabase();
-            /*InitializeMovieGrid();*/
-            PopulateMovie();
+            // init select box
             InitializeDirectorsListBox();
             InitializeGenresListBox();
+            // get movie data
             PopulateMovie();
             toggleEvent(true);
         }
+        // search by key word
         private void SearchInput(Object o, EventArgs e)
         {
 
             string input = SearchTextBox.Text;
             using (var ctx = new MovieContext())
             {
+                // get movie list from database, and display it on the list
                 movies = ctx.Movie.ToList();
                 List<MovieTempForList> tempMovieListFull = new List<MovieTempForList>();
                 foreach (Movie m in movies)
@@ -106,7 +111,7 @@ namespace FP200OK01
             }
             MovieDataGrid.ItemsSource = tempMovieList;
         }
-
+        // go to favorite list event
         private void GoToFavList(object sender, RoutedEventArgs e)
         {
             if (u.UserId != 0)
@@ -118,6 +123,7 @@ namespace FP200OK01
                 MessageBox.Show("Please login");
             }
         }
+        // button show/hide
         private void toggleVisible(bool toggle)
         {
             if (toggle)
@@ -133,19 +139,21 @@ namespace FP200OK01
                 CreateButton.Visibility = Visibility.Hidden;
             }
         }
+        //go to create account page
         private void CreateButtonClick(object sender, RoutedEventArgs e)
         {
 
             toggleVisible(false);
             this.NavigationService.Navigate(new CreateAccount());
         }
-
+        // go to login page
         private void LoginButtonClick(Object o, EventArgs e)
         {
 
             toggleVisible(false);
             this.NavigationService.Navigate(new LoginPage());
         }
+        //logout and go to main page
         private void LogOutButtonClick(Object o, EventArgs e)
         {
 
@@ -153,13 +161,11 @@ namespace FP200OK01
             this.NavigationService.Navigate(new MainPage());
 
         }
+        // bind event
         private void toggleEvent(bool toggle)
         {
             if (toggle)
             {
-                //subLogInButton.Click += SubLoginButtonClick;
-                //CreateButton.Click += CreateButtonClick;
-                //createPage.SubCreateButton.Click += SubCreateButtonClick;
 
                 MovieDataGrid.MouseDoubleClick += DataGridCellMouseDoubleClick;
                 AddMovieButton.Click += AddMovieButtonClick;
@@ -175,12 +181,12 @@ namespace FP200OK01
 
             }
         }
-
+        // when finished edit movie, refresh the grid
         private void WindowClosed(Object o, EventArgs e)
         {
             PopulateMovie();
         }
-
+        // search by key word, and update the grid byt the result
         private void SearchTextInput(Object o, EventArgs e)
         {
             string keyWord = SearchTextBox.Text;
@@ -220,56 +226,7 @@ namespace FP200OK01
             }
         }
 
-        /*private void filterByDirectorGenre(Object o, EventArgs e)
-        {
-            selectedDirInd = DirectorListBox.SelectedIndex;
-            selectedGenreInd = GenreListBox.SelectedIndex;
-            
-            using (var ctx = new MovieContext())
-            {
-                movies = ctx.Movie.ToList();
-                List<MovieTempForList> tempMovieList = new List<MovieTempForList>();
-                foreach (Movie m in movies)
-                {
-                    MovieTempForList currentMovie = new MovieTempForList();
-                    currentMovie.MovieId = m.MovieId;
-                    currentMovie.MovieTitle = m.MovieTitle;
-                    currentMovie.ReleaseDate = m.ReleaseDate.ToShortDateString();
-                    currentMovie.MovieDirector = ctx.Director.Where(x => x.DirectorId == m.DirectorId).FirstOrDefault().ToString();
-                    currentMovie.MovieGenres = ctx.Genre.Where(x => x.GenreId == m.GenreId).FirstOrDefault().ToString();
-                    tempMovieList.Add(currentMovie);
-                }
-                genres = ctx.Genre.ToList();
-                directors = ctx.Director.ToList();
-                if (selectedDirInd != -1 && selectedGenreInd != -1)
-                {
-                    Director selectedDirector = directors[selectedDirInd];
-                    var director = ctx.Director.Where(x => x.DirectorId == selectedDirector.DirectorId).First();
-                    string directorName = director.DirectorName;
-                    Genre selectedGenre = genres[selectedGenreInd];
-                    var genre = ctx.Genre.Where(x => x.GenreId == selectedGenre.GenreId).First();
-                    string genreName = genre.GenreName;
-                    tempMovieList = tempMovieList.Where(x => x.MovieGenres.Contains(genreName)&& x.MovieDirector.Contains(directorName)).ToList();
-                }
-                else if (selectedDirInd != -1 && selectedGenreInd== -1)
-                {
-                    Director selectedDirector = directors[selectedDirInd];
-                    var director = ctx.Director.Where(x => x.DirectorId == selectedDirector.DirectorId).First();
-                    string directorName = director.DirectorName;
-                    tempMovieList = tempMovieList.Where(x => x.MovieDirector.Contains(directorName)).ToList();
-                }
-                else if(selectedDirInd == -1 && selectedGenreInd != -1)
-                {
-                    Genre selectedGenre = genres[selectedGenreInd];
-                    var genre = ctx.Genre.Where(x => x.GenreId == selectedGenre.GenreId).First();
-                    string genreName = genre.GenreName;
-                    tempMovieList = tempMovieList.Where(x => x.MovieGenres.Contains(genreName)).ToList();
-                }
-                MovieDataGrid.ItemsSource = tempMovieList;
-            }
-            
-        }*/
-
+        // filter movie by Genre
         private void filterByDirectorGenreMulti(Object o, EventArgs e)
         {
             // Get the string from listview to build list 
@@ -286,9 +243,6 @@ namespace FP200OK01
 
             using (var ctx = new MovieContext())
             {
-                /*var directors = DirectorListBox.SelectedItems.Cast<ListViewItem>().Select(x => x.Content as string).ToList();
-                var genres   = GenreListBox.SelectedItems.Cast<ListViewItem>().Select(x => x.Content as string).ToList();*/
-
 
                 movies = ctx.Movie.ToList();
                 List<MovieTempForList> tempMovieList = new List<MovieTempForList>();
@@ -324,7 +278,7 @@ namespace FP200OK01
         }
 
 
-
+        // go to detail page when user double click the row in data grid
         private void DataGridCellMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Movie temp = new Movie();
@@ -338,7 +292,7 @@ namespace FP200OK01
 
         }
 
-
+        // init director listBox
         public void InitializeDirectorsListBox()
         {
             DirectorListBox.SelectionMode = SelectionMode.Multiple;
@@ -361,7 +315,7 @@ namespace FP200OK01
                 }
             }
         }
-
+        // init Genres listBox
         public void InitializeGenresListBox()
         {
             GenreListBox.SelectionMode = SelectionMode.Multiple;
@@ -387,34 +341,9 @@ namespace FP200OK01
 
         }
 
-        /* private void SubLoginButtonClick(Object o, EventArgs e)
-         {
-             using (var ctx = new MovieContext())
-             {
-                 var user = ctx.User.Where(x => x.UserName == loginPage.UserNameTextBox.Text).FirstOrDefault ;
-                 if (loginPage.PasswordTextBox.Text == user.getPassword().Trim())
-                 {
-                     myUser = user;*//*
-                     LogoutButton.Visibility = Visibility.Visible;
-                     LoginButton.Visibility = Visibility.Hidden;*//*
-                     loginPage.HintTextBlock.Text = "";
-                     loginPage.UserNameTextBox.Text = "";
-                     loginPage.PasswordTextBox.Text = "";
-                     loginPage.Hide();
-                     CreateButton.Visibility = Visibility.Hidden;
-                     AccountTextBlock.Text = "Hello, " + myUser.UserName;
-                     AccountTextBlock.Visibility = Visibility.Visible;
-                 }
-                 else
-                 {
-                     loginPage.HintTextBlock.Visibility = Visibility.Visible;
-                     loginPage.HintTextBlock.Text = "Wrong input information";
-                 }
-             }
-         }*/
+        
 
-
-
+        // loop through movielist and add event entry to dataGrid
         private void PopulateMovie()
         {
             //MovieDataGrid.Items.Clear();
@@ -436,25 +365,7 @@ namespace FP200OK01
             }
         }
 
-        /* private void InitializeMovieGrid()
-         {
-             DataGridTextColumn movieTitleColumn = new DataGridTextColumn();
-             movieTitleColumn.Header = "Movie Title";
-             movieTitleColumn.Binding = new Binding("MovieTitle");
-             DataGridTextColumn movieReleaseDateColumn = new DataGridTextColumn();
-             movieReleaseDateColumn.Header = "Release Date";
-             movieReleaseDateColumn.Binding = new Binding("ReleaseDate");
-             movieReleaseDateColumn.Binding.StringFormat = "dd/MM/yyyy";
-             DataGridTextColumn genreColumn = new DataGridTextColumn();
-             genreColumn.Header = "Genre";
-             DataGridTextColumn directorColumn = new DataGridTextColumn();
-             directorColumn.Header = "Director";
-             MovieDataGrid.Columns.Add(movieTitleColumn);
-             MovieDataGrid.Columns.Add(movieReleaseDateColumn);
-             MovieDataGrid.Columns.Add(genreColumn);
-             MovieDataGrid.Columns.Add(directorColumn);
-         }*/
-
+       // when user click add movie
         private void AddMovieButtonClick(Object o, EventArgs e)
         {
             editionPage = new MovieEditionPage();
@@ -462,7 +373,7 @@ namespace FP200OK01
             editionPage.Show();
             editionPage.Closed += WindowClosed;
         }
-
+        // when user click edit movie
         private void EditMovieButtonClick(Object o, EventArgs e)
         {
             using (var ctx = new MovieContext())
@@ -484,7 +395,7 @@ namespace FP200OK01
 
 
         }
-
+        // when user click delete movie
         private void DeleteMovieButtonClick(Object o, EventArgs e)
         {
             if (MovieDataGrid.SelectedItem == null)
@@ -506,7 +417,7 @@ namespace FP200OK01
             }
 
         }
-
+        // if the user doesn't update csv themself, we'll parse our own data
         private void ReadDataToDatabase()
         {
 
@@ -558,7 +469,7 @@ namespace FP200OK01
                 }
 
                 ctx.SaveChanges();
-
+                // parse IMDB data
                 count = ctx.IMDBData.Count();
                 if (count <= 0)
                 {
@@ -572,28 +483,7 @@ namespace FP200OK01
 
                 ctx.SaveChanges();
 
-                /*count = ctx.Review.Count();
-                if (count <= 0)
-                {
-                    List<Review> review = new List<Review>();
-                    review = ReviewCSVParser.parseRoster(fs.ReadFile(@"..\\..\\Data\\reviews.csv"));
-                    foreach (Review i in review)
-                    {
-                        ctx.Review.Add(i);
-                    }
-                }
-                ctx.SaveChanges();
-                count = ctx.Favorite.Count();
-                if (count <= 0)
-                {
-                    List<Favorite> favList = new List<Favorite>();
-                    favList = FavoriteCSVParser.parseRoster(fs.ReadFile(@"..\\..\\Data\\favorites.csv"));
-                    foreach (Favorite i in favList)
-                    {
-                        ctx.Favorite.Add(i);
-                    }
-                }
-                ctx.SaveChanges();*/
+               
             }
         }
 

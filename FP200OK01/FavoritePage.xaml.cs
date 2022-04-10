@@ -32,7 +32,9 @@ namespace FP200OK01
         {
             InitializeComponent();
             user = u;
+            // bind event
             CloseBtn.Click += navigateBackButton_Click;
+            // retrive favorite data
             popFavData();
         }
 
@@ -41,7 +43,9 @@ namespace FP200OK01
             wrapPanel.Children.Clear();
             using (var ctx = new MovieContext())
             {
+                // get Favorite by userId
                 var favList = ctx.Favorite.Where(x => x.UserId == user.UserId).ToList<Favorite>();
+                // if there's no favorite moive in the list
                 if (favList.Count == 0)
                 {
                     TextBlock reviewContent = new TextBlock();
@@ -50,6 +54,7 @@ namespace FP200OK01
                 }
                 else
                 {
+                    // loop Favorite List
                     foreach (Favorite f in favList)
                     {
                         var movie = ctx.Movie.Where(x => x.MovieId == f.MovieId).FirstOrDefault();
@@ -75,7 +80,7 @@ namespace FP200OK01
             }
 
         }
-
+        // back to main page
         void navigateBackButton_Click(object sender, RoutedEventArgs e)
         {
 

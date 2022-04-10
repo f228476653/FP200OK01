@@ -24,6 +24,7 @@ namespace FP200OK01
         public MovieEditionPage()
         {
             InitializeComponent();
+            // show/hide CRUD button
             EditionMovieIdTextBlock.Visibility = Visibility.Hidden;
             EditionMovieIdTextBox.Visibility = Visibility.Hidden;
             EditionAddMovieButton.Visibility = Visibility.Visible;
@@ -38,6 +39,7 @@ namespace FP200OK01
             toggleEvent(true);
             try
             {
+                // when edit movie, we have to load previous data to the page
                 using (var ctx = new MovieContext())
                 {
                     var currentMovie = ctx.Movie.Where(x => x.MovieId.ToString() == EditionMovieIdTextBox.Text).First();
@@ -66,6 +68,7 @@ namespace FP200OK01
             {
                 using (var ctx = new MovieContext())
                 {
+                    // update movie by using new data
                     var currentMovie = ctx.Movie.Where(x => x.MovieId.ToString() == EditionMovieIdTextBox.Text).First();
                     currentMovie.MovieTitle = EditionMovieTitleTextBox.Text;
                     currentMovie.DirectorId = Convert.ToInt32(EditionDirectorTextBox.Text);
@@ -105,6 +108,7 @@ namespace FP200OK01
 
         }
 
+        // add movie button event
         private void AddButtonClick(Object o, EventArgs e)
         {
             if (EditionMovieTitleTextBox.Text.Length == 0 || EditionReleaseDatePicker.SelectedDate == null || EditionDirectorTextBox.Text.Length == 0
@@ -151,10 +155,6 @@ namespace FP200OK01
             {
                 EditionEditMovieButton.Click += EditionButtonClick;
                 EditionAddMovieButton.Click += AddButtonClick;
-            }
-            else
-            {
-
             }
         }
     }

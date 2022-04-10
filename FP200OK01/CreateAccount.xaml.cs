@@ -25,18 +25,22 @@ namespace FP200OK01
         public CreateAccount()
         {
             InitializeComponent();
+            // bind create button event
             SubCreateButton.Click += SubCreateButtonClick;
+            // bind back button event
             back.Click += GoBack;
         }
 
         private void GoBack(object sender, RoutedEventArgs e)
         {
             User u = new User();
+            // Navigate to MainPage
             this.NavigationService.Navigate(new MainPage(u));
         }
 
         private void SubCreateButtonClick(Object o, EventArgs e)
         {
+            // empty check
             if (CreateUserNameTextBox.Text.Length == 0 || CreatePasswordTextBox.Text.Length == 0)
             {
                 CreateHintTextBlock.Text = "Please input both user name and password";
@@ -45,6 +49,7 @@ namespace FP200OK01
             {
                 using (var ctx = new MovieContext())
                 {
+                    //Save User
                     var count = ctx.User.Where(x => x.UserName == CreateUserNameTextBox.Text).Count();
 
                     if (count == 0)
@@ -59,6 +64,7 @@ namespace FP200OK01
                     }
                     else
                     {
+                        // Multi User Check
                         CreateHintTextBlock.Text = "The user name is used. Please input another one!";
                     }
                 }

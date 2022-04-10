@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace FP200OK01.Entities
 {
+    // Favorite Entity
+    // To show favorite movies of the user
     public class Favorite
     {
         [Key]

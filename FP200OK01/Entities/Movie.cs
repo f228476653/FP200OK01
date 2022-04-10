@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FP200OK01.Entities
 {
+    // Movie entity
     public class Movie : INotifyPropertyChanged
     {
         private int genreId;
@@ -41,6 +42,7 @@ namespace FP200OK01.Entities
 
         public IMDBData imdbData { get; set; }
 
+        // constructor
         public Movie(string movieTitle, DateTime releaseDate, int genreId, int directorId, string movieDescription)
         {
             GenreId = genreId;

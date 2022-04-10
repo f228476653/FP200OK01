@@ -25,18 +25,20 @@ namespace FP200OK01
         public LoginPage()
         {
             InitializeComponent();
+            // hide error msg block
             HintTextBlock.Visibility = Visibility.Hidden;
             toggleEvent();
         }
-
+        //bind event
         private void toggleEvent()
         {
             Back.Click += navigateBackButton_Click;
             SubLoginButton.Click += checkPwd;
         }
-
+        // Check Password
         private void checkPwd(object sender, RoutedEventArgs e)
         {
+            // if there's inpit in userName text & PasswordText
             User user = null;
             if (UserNameTextBox.Text.Count() == 0 || PasswordTextBox.Text.Count() == 0)
             {
@@ -47,8 +49,9 @@ namespace FP200OK01
             {
                 try
                 {
+                    // find user by user name
                     user = ctx.User.Where(x => x.UserName == UserNameTextBox.Text).First();
-
+                    // validate password
                     if (PasswordTextBox.Text == user.getPassword().Trim())
                     {
                         HintTextBlock.Text = "";

@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace FP200OK01.Utilities
 {
+    // DirectorParser
     class DirectorParser
     {
         public static List<Director> DirectorsInfo = new List<Director>();
@@ -32,6 +33,7 @@ namespace FP200OK01.Utilities
                 {
                     try
                     {
+                        // new Director, add data from csv to Director
                         Director newDirector = new Director();
                         newDirector.DirectorName = fields[0];
                         DirectorsInfo.Add(newDirector);

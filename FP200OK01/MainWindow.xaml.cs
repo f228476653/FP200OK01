@@ -24,7 +24,7 @@ namespace FP200OK01
         string userName = string.Empty;
         public MainWindow()
         {
-
+            // load PrePage to the Frame
             InitializeComponent();
             mainWindow = Window.GetWindow(this) as MainWindow;
             Frame frame = (Frame)mainWindow.FindName("frame");

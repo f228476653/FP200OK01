@@ -10,6 +10,7 @@ namespace FP200OK01.Utilities
 {
     class Encrypt
     {
+        // Encrypt the password
         public static string EncryptPassword(string key, string password)
         {
             if (password == null)
@@ -45,6 +46,7 @@ namespace FP200OK01.Utilities
             return Convert.ToBase64String(array);
         }
 
+        // Decrypt the password to plain text
         public static string DecryptPassword(string key, string cipherPassword)
         {
             if (cipherPassword == null)

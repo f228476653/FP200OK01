@@ -31,22 +31,27 @@ namespace FP200OK01
             InitializeComponent();
             movie = m;
             user = u;
+            // fetch data from DB
             getData();
+            // Bind Button Event
             AddReview.Click += addReviewEvent;
             FavoriteBtn.Click += FavEvent;
             CloseBtn.Click += navigateBackButton_Click;
+            // check if the movie has saved to the user's favorite list
             isFav = isFavorite();
         }
         void navigateBackButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // back to main page
             this.NavigationService.Navigate(new MainPage(user));
 
         }
         private void FavEvent(object o, EventArgs e)
         {
+            // if this is in favorite list
             if (isFav)
             {
+                // delete from favorite list
                 using (var ctx = new MovieContext())
                 {
                     ctx.Favorite.Remove(ctx.Favorite.Where(x => x.MovieId == movie.MovieId && x.UserId == user.UserId).FirstOrDefault());
@@ -56,6 +61,8 @@ namespace FP200OK01
             }
             else
             {
+                // if this is not in favorite list
+                // save to favorite list
                 using (var ctx = new MovieContext())
                 {
                     Favorite temp = new Favorite();
@@ -78,6 +85,7 @@ namespace FP200OK01
                 }
 
                 var favorite = ctx.Favorite.Where(x => x.MovieId == movie.MovieId && x.UserId == user.UserId).FirstOrDefault();
+                // display button text by is favorite or not
                 if (favorite != null)
                 {
                     FavoriteBtn.Content = "Delete form my favorite list";
@@ -91,7 +99,7 @@ namespace FP200OK01
                 return false;
             }
         }
-
+        // Link to IMDB page
         private void HandleLinkClick(object sender, RoutedEventArgs e)
         {
             Hyperlink hl = (Hyperlink)sender;
@@ -100,7 +108,7 @@ namespace FP200OK01
             e.Handled = true;
         }
 
-
+        // add a review
         private void addReviewEvent(object o, EventArgs e)
         {
             if (user.UserId != 0)
@@ -122,7 +130,7 @@ namespace FP200OK01
                 MessageBox.Show("Please login first");
             }
         }
-
+        // get IMDBData && review by MovieId
         public void getData()
         {
             using (var ctx = new MovieContext())
@@ -134,6 +142,7 @@ namespace FP200OK01
                 displayReview(review);
             }
         }
+        // display IMDBdata to the page
         public void displayIMDB(IMDBData iMDBData)
         {
 
@@ -143,6 +152,7 @@ namespace FP200OK01
             bitmap.EndInit();
             MoiveImg.Source = bitmap;
             MovieName.Text = movie.MovieTitle;
+            //get movie description by MovieId
             using (var ctx = new MovieContext())
             {
                 var description = ctx.Movie.Where(x => x.MovieId == movie.MovieId).FirstOrDefault();
@@ -150,6 +160,7 @@ namespace FP200OK01
             }
             this.DataContext = iMDBData.imdbPath;
         }
+        // display Review to the page
         public void displayReview(List<Review> reviewList)
         {
             stackPanel.Children.Clear();

@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FP200OK01.Entities
 {
+    // IMDBData Entity
+    // To show the IMDBData of the movie
     public class IMDBData
     {
         [Key]

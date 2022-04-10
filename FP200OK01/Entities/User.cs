@@ -10,12 +10,14 @@ using System.Windows;
 
 namespace FP200OK01.Entities
 {
+    //User entity
     public class User
     {
         private string password;
         [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        // Encrypt password
         public string Password
         {
             get

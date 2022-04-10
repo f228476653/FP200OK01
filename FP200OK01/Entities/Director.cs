@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FP200OK01.Entities
 {
+    // Director Entity
+    // To show the director of the movie
     public class Director
     {
         
