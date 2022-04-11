@@ -57,13 +57,14 @@ namespace FP200OK01
                         HintTextBlock.Text = "";
                         UserNameTextBox.Text = "";
                         PasswordTextBox.Text = "";
+                        this.NavigationService.Navigate(new MainPage(user));
                     }
                     else
                     {
                         HintTextBlock.Visibility = Visibility.Visible;
                         HintTextBlock.Text = "Wrong input information";
                     }
-                    this.NavigationService.Navigate(new MainPage(user));
+                    
                 }
                 catch (Exception ex)
                 {
