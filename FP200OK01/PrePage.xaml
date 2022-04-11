@@ -15,7 +15,7 @@
         <TextBlock x:Name="status2"  HorizontalAlignment="Left" Margin="247,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="157"/>
         <TextBlock x:Name="status3"  HorizontalAlignment="Left" Margin="247,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="157"/>
         <Button Name="AddGenreBtn" IsEnabled="false" Content="Populate Genres" HorizontalAlignment="Left" Margin="65,181,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
-        <Button Name="AddMovieBtn" IsEnabled="false"  Content="Populate Moive" HorizontalAlignment="Left" Margin="65,229,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
+        <Button Name="AddMovieBtn" IsEnabled="false"  Content="Populate Movie" HorizontalAlignment="Left" Margin="65,229,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
         <Button Name="Skip" Content="Skip" HorizontalAlignment="Left" Margin="623,339,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
         <Button Name="Next" Content="Next" HorizontalAlignment="Left" Margin="473,339,0,0" VerticalAlignment="Top" Width="134" Height="27"/>
     </Grid>

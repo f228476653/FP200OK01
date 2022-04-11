@@ -1,0 +1,10 @@
+=============Error Logging ===========
+===========Start============= 4/10/2022 4:44:55 PM
+Error Message: Последовательность не содержит элементов
+Stack Trace:    в System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   в lambda_method(Closure , QueryContext )
+   в Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   в Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   в System.Linq.Queryable.First[TSource](IQueryable`1 source)
+   в FP200OK01.LoginPage.checkPwd(Object sender, RoutedEventArgs e) в C:\FP200OK01\FP200OK01\LoginPage.xaml.cs:строка 53
+===========End============= 4/10/2022 4:44:55 PM
